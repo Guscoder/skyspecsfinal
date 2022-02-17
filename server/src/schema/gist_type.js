@@ -1,7 +1,6 @@
 const graphql = require('graphql');
-const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
-const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLInt, GraphQLString } =
-  graphql;
+const { GraphQLJSON } = require('graphql-type-json');
+const { GraphQLObjectType, GraphQLID, GraphQLString } = graphql;
 
 const GistType = new GraphQLObjectType({
   name: 'GistType',

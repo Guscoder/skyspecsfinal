@@ -13,9 +13,11 @@ const App = () => {
   const [usergists, setUserGists] = useState([]);
   const [favoriteList, setFavoriteList] = useState({});
 
+  // get favorites from database on render
   useEffect(() => {
     async function getFavorites() {
       const response = await ApiClient.getFavoriteGists();
+      console.log('gettig favorites');
       console.log(response);
       setFavoriteList(response);
     }
@@ -28,7 +30,6 @@ const App = () => {
         <Navbar />
         <div>
           <Switch>
-            {/* <Route path='/' exact component={SearchBar} /> */}
             <Route path='/' exact>
               <SearchBar user={currentuser} setCurrentUser={setCurrentUser} />
             </Route>
@@ -37,6 +38,8 @@ const App = () => {
                 user={currentuser}
                 usergists={usergists}
                 setUserGists={setUserGists}
+                favoriteList={favoriteList}
+                setFavoriteList={setFavoriteList}
               />
             </Route>
             <Route path='/gists/favorites' exact>

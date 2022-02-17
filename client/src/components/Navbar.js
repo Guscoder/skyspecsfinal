@@ -16,25 +16,6 @@ const Navbar = () => {
           <Link to='/gists/favorites'>Favorite Gists</Link>
         </li>
       </ul>
-      {/* <div className='Nav__container'>
-        <ul className='Nav__item-wrapper'>
-          <li className='Nav__item'>
-            <Link className='Nav__link' to='/'>
-              Home
-            </Link>
-          </li>
-          <li className='Nav__item'>
-            <Link className='Nav__link' to='/gists'>
-              UserGists
-            </Link>
-          </li>
-          <li className='Nav__item'>
-            <Link className='Nav__link' to='/gists/favorites'>
-              Favorite Gists
-            </Link>
-          </li>
-        </ul>
-      </div> */}
     </nav>
   );
 };

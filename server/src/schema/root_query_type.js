@@ -1,7 +1,7 @@
 const graphql = require('graphql');
 const axios = require('axios');
 const db = require('../../db');
-const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
+const { GraphQLJSON } = require('graphql-type-json');
 
 const {
   GraphQLObjectType,
@@ -15,6 +15,7 @@ const GistType = require('./gist_type');
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: () => ({
+    // this fetches all the gists for a particular user
     gists: {
       type: new GraphQLList(GistType),
       args: { username: { type: new GraphQLNonNull(GraphQLString) } },
@@ -29,18 +30,18 @@ const RootQuery = new GraphQLObjectType({
           .catch((error) => console.log(error));
       },
     },
+    // this fetches a single gist wiven the gist id as argument
     gist: {
       type: GistType,
-      args: { gist_id: { type: new GraphQLNonNull(GraphQLID) } },
-      resolve(parentValue, { gist_id }) {
-        return axios
-          .get(`https://api.github.com/gists/${gist_id}`)
-          .then((res) => {
-            console.log(res.data.files);
-            return res.data;
-          });
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(parentValue, { id }) {
+        return axios.get(`https://api.github.com/gists/${id}`).then((res) => {
+          console.log(res.data.files);
+          return res.data;
+        });
       },
     },
+    // this fetches all the favorite gists from the database
     favoriteGists: {
       type: GraphQLJSON,
       async resolve() {

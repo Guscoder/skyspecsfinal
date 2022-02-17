@@ -6,35 +6,53 @@ const SingleGist = ({ gist, favoriteList, setFavoriteList }) => {
   const [showFiles, setShowFiles] = useState(false);
   // console.log(gist);
 
-  const checkFavoriteStatus = () => {
-    // setFavorite(data_here);
+  const checkFavoriteStatus = (id) => {
+    // console.log(id);
+    console.log(favoriteList[id] ? true : false);
+    return favoriteList[id] ? true : false;
   };
 
   useEffect(() => {
-    checkFavoriteStatus();
+    if (checkFavoriteStatus(gist.id)) setFavorite(true);
   }, []);
 
-  const handleGistClick = async () => {
+  const handleGistClick = () => {
     setShowFiles(true);
+    showGistFiles();
   };
 
-  // const showGistFiles = () => {
-  //   console.log(gist.files);
-  //   return 'my files';
-  // };
+  const showGistFiles = () => {
+    console.log(Object.keys(gist.files)[0]);
+    return <p>{Object.keys(gist.files)[0]}</p>;
+  };
 
-  const changeFavoriteStatus = () => {
-    // change DB also
-    console.log('unmark this');
+  const changeFavoriteStatus = async () => {
+    console.log('mark this');
     if (isFavorite) {
-      ApiClient.unmarkFavoriteGists(gist.id);
+      console.log(gist);
+      console.log('unmark it');
+
+      await ApiClient.unmarkFavoriteGists(gist.id);
     } else {
+      console.log(gist);
+      console.log('mark it');
+
       ApiClient.markFavoriteGists(
         gist.id,
-        gist.desciption || '',
-        gist.created_at || '',
+        gist.description,
+        gist.created_at,
         gist.files
       );
+
+      setFavoriteList({
+        ...favoriteList,
+        [gist.id]: {
+          id: gist.id,
+          description: gist.description,
+          created_at: gist.created_at,
+          files: gist.files,
+        },
+      });
     }
     isFavorite ? setFavorite(false) : setFavorite(true);
   };
@@ -43,17 +61,19 @@ const SingleGist = ({ gist, favoriteList, setFavoriteList }) => {
     <>
       <tr onClick={handleGistClick}>
         <td>{gist.description}</td>
-        <td>{gist.created_at || gist.dateCreated}</td>
-        <td onClick={changeFavoriteStatus}>{isFavorite ? 'YES' : 'NO'}</td>
+        <td>{gist.created_at}</td>
+        <td onClick={() => changeFavoriteStatus(gist.id)}>
+          {isFavorite ? 'YES' : 'NO'}
+        </td>
       </tr>
-      {/* {showFiles ? (
+      {showFiles ? (
         <tr>
           <td>Gist Files:</td>
           <td>{showGistFiles}</td>
         </tr>
       ) : (
         ''
-      )} */}
+      )}
     </>
   );
 };

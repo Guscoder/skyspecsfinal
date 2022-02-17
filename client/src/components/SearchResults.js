@@ -21,7 +21,6 @@ const SearchResults = ({
     }
     getGists(user);
   }, []);
-  console.log(isLoading);
 
   return (
     <div>

@@ -1,20 +1,13 @@
 const graphql = require('graphql');
-const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
-const {
-  GraphQLObjectType,
-  GraphQLList,
-  GraphQLID,
-  GraphQLInt,
-  GraphQLString,
-  GraphQLNonNull,
-} = graphql;
+const { GraphQLJSON } = require('graphql-type-json');
+const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLNonNull } = graphql;
 
 const FavoriteGistType = new GraphQLObjectType({
   name: 'FavoriteGist',
   fields: () => ({
+    id: { type: new GraphQLNonNull(GraphQLID) },
     description: { type: GraphQLString },
-    gist_id: { type: new GraphQLNonNull(GraphQLID) },
-    dateCreated: { type: GraphQLString },
+    created_at: { type: GraphQLString },
     files: { type: GraphQLJSON },
   }),
 });

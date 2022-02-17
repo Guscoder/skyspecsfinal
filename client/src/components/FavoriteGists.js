@@ -6,7 +6,7 @@ const FavoriteGists = ({ favoriteList, setFavoriteList }) => {
   useEffect(() => {
     async function getFavs() {
       const response = await ApiClient.getFavoriteGists();
-      // console.log(response);
+      console.log(response);
       setFavoriteList(response);
       return response;
     }
